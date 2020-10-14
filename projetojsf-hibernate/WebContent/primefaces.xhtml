@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<HTML xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+<h:head></h:head>
+
+<h:body>
+
+	<h:form>
+		<p:breadCrumb>
+			<p:menuitem />
+			<p:menuitem value="Págima JSF" action="index.jsf" />
+			<p:menuitem value="Págima PrimeFaces" action="primefaces.jsf" />
+		</p:breadCrumb>
+	</h:form>
+
+	<h:form id="formulario">
+		<p:messages autoUpdate="true" showDetail="true"/>
+		<br/>
+		<br/>
+		<h:panelGrid columns="2">
+
+			<p:outputLabel>ID</p:outputLabel>
+			<p:inputText readonly="true" value="#{usuarioPessoaManegedBean.usuarioPessoa.id}" />
+
+			<p:outputLabel>Nome</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManegedBean.usuarioPessoa.nome}" pt:placeholder="Informe o sobrenome" required="true" requiredMessage="Informe o nome"/>
+
+			<p:outputLabel>Sobrenome</p:outputLabel>
+			<p:inputText
+				value="#{usuarioPessoaManegedBean.usuarioPessoa.sobrenome}"
+				pt:placeholder="Informe o sobrenome" required="true"
+				requiredMessage="Informe o sobrenome!" />
+
+			<p:outputLabel>Email</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManegedBean.usuarioPessoa.email}" />
+
+			<p:outputLabel>Idade</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManegedBean.usuarioPessoa.idade}" />
+			
+			<p:outputLabel>Salário</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManegedBean.usuarioPessoa.salario}" />
+
+			<p:outputLabel>Sexo:</p:outputLabel>
+			<p:selectOneMenu style="width:125px"
+				value="#{usuarioPessoaManegedBean.usuarioPessoa.sexo}">
+				
+				<f:selectItem itemLabel="MASCULINO"  itemValue="MASCULINO" />
+				<f:selectItem itemLabel="FEMININO"  itemValue="FEMININO" />
+			</p:selectOneMenu>
+
+			<p:outputLabel>Cep:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManegedBean.usuarioPessoa.cep}"
+				id="cepuser">
+				<f:ajax event="blur" execute="@this" render="logradouro complemento bairro localidade uf unidade ibge gia"
+					listener="#{usuarioPessoaManegedBean.pesquisaCep}" />
+			</p:inputText>
+		
+			<p:outputLabel>Logradouro:</p:outputLabel>
+			<p:inputText
+				value="#{usuarioPessoaManegedBean.usuarioPessoa.logradouro}"
+				id="logradouro" />
+
+			<p:outputLabel>Complemento:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManegedBean.usuarioPessoa.complemento}" id="complemento" />
+
+			<p:outputLabel>Bairro:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManegedBean.usuarioPessoa.bairro}"
+				id="bairro" />
+
+			<p:outputLabel>Localidade:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManegedBean.usuarioPessoa.localidade}" id="localidade" />
+
+			<p:outputLabel>UF:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManegedBean.usuarioPessoa.uf}"
+				id="uf" />
+
+			<p:outputLabel>Unidade:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManegedBean.usuarioPessoa.unidade}" id="unidade" />
+
+			<p:outputLabel>IBGE:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManegedBean.usuarioPessoa.ibge}"
+				id="ibge" />
+
+			<p:outputLabel>Gia:</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManegedBean.usuarioPessoa.gia}"
+				id="gia" />
+
+			<p:outputLabel>Login</p:outputLabel>
+			<p:inputText value="#{usuarioPessoaManegedBean.usuarioPessoa.login}" />
+
+			<p:outputLabel>Senha</p:outputLabel>
+			<p:password value="#{usuarioPessoaManegedBean.usuarioPessoa.senha}" />
+
+
+		</h:panelGrid>
+		<br />
+		<br />
+		<p:commandButton value="Salvar" ajax="false"
+			action="#{usuarioPessoaManegedBean.salvar}" />
+		<p:commandButton value="Novo" ajax="true" immediate="true" update=":formulario"
+			action="#{usuarioPessoaManegedBean.novo}" >
+			<f:ajax execute="@this" render="@form"/>
+			</p:commandButton>
+
+		<br />
+		<br />
+		
+		</h:form>
+		
+		<h:form id="formtable">
+
+		<p:dataTable value="#{usuarioPessoaManegedBean.list}" var="user">
+			<p:column headerText="ID">
+				<h:outputText value="#{user.id}" />
+			</p:column>
+
+			<p:column headerText="Nome">
+				<h:outputText value="#{user.nome}" />
+			</p:column>
+
+			<p:column headerText="Sobrenome">
+				<h:outputText value="#{user.sobrenome}" />
+			</p:column>
+
+			<p:column headerText="Idade">
+				<h:outputText value="#{user.idade}" />
+			</p:column>
+
+			<p:column headerText="Login">
+				<h:outputText value="#{user.login}" />
+			</p:column>
+
+			<p:column headerText="Editar">
+				<p:commandLink  immediate="true" id="botaoeditar">
+					<f:setPropertyActionListener value="#{user}"
+						target="#{usuarioPessoaManegedBean.usuarioPessoa}" />
+						<f:ajax execute="botaoeditar" render=":formulario"/>
+						<h:graphicImage url="resources/img/editar.png" width="25px" height="25px"/>
+				</p:commandLink>
+			</p:column>
+
+			<p:column headerText="Remover">
+				<h:commandLink  id="botaoremover"
+					action="#{usuarioPessoaManegedBean.remover}">
+					<f:setPropertyActionListener value="#{user}"
+						target="#{usuarioPessoaManegedBean.usuarioPessoa}" />
+						<f:ajax execute="botaoremover" render="@form"/>
+						<h:graphicImage url="resources/img/excluir.png" width="25px" height="25px"/>
+				</h:commandLink>
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header">Telefones</f:facet>
+				<h:commandLink immediate="true"
+					action="telefoneprimefaces.jsf" id="botaofone">
+					<h:graphicImage url="resources/img/fone.png" width="25px" height="25px"/>
+					<f:param name="codigouser" value="#{user.id}"/>
+				</h:commandLink>
+			</p:column>
+
+		</p:dataTable>
+
+	</h:form>
+	
+	<p:chart type="bar" model="#{usuarioPessoaManegedBean.barCharModel}"/>
+
+
+</h:body>
+
+</HTML>

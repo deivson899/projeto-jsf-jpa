@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<HTML xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+<h:head></h:head>
+
+<h:body>
+
+	<h:form>
+
+		<p:breadCrumb>
+			<p:menuitem />
+			<p:menuitem value="Págima JSF" action="index.jsf" />
+			<p:menuitem value="Págima PrimeFaces" action="primefaces.jsf" />
+		</p:breadCrumb>
+
+	</h:form>
+
+
+	<h:form id="formulario">
+		<p:messages showDetail="true" showSummary="false" id="msg" />
+
+		<h:panelGrid columns="2">
+			<p:outputLabel>Usuário</p:outputLabel>
+			<h:outputText value="#{telefoneManagedBean.user.nome}" />
+
+			<p:outputLabel>Número:</p:outputLabel>
+			<p:inputText value="#{telefoneManagedBean.telefone.numero}" />
+
+			<p:outputLabel>Tipo:</p:outputLabel>
+			<p:inputText value="#{telefoneManagedBean.telefone.tipo}" />
+		</h:panelGrid>
+		<br />
+		<br />
+
+		<p:commandButton value="Salvar" action="#{telefoneManagedBean.salvar}" ajax="false"/>
+
+	</h:form>
+
+	<h:form id="formTelefone">
+		<p:dataTable value="#{telefoneManagedBean.user.telefoneUsers}" var="fone"  id="tabelFone">
+			
+			<p:column>
+				<f:facet name="head">Id:</f:facet>
+				<h:outputText value="#{fone.id}"/>
+			</p:column>
+			
+			<p:column>
+				<f:facet name="head">Numero:</f:facet>
+				<h:outputText value="#{fone.numero}"/>
+			</p:column>
+			
+			<p:column>
+				<f:facet name="head">Tipo:</f:facet>
+				<h:outputText value="#{fone.tipo}"/>
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header">Delete</f:facet>
+				<h:commandLink immediate="true"
+					action="#{telefoneManagedBean.removeTelefone}" id="botaoremover">
+					<h:graphicImage url="resources/img/excluir.png" width="25" height="25"/>
+					<f:setPropertyActionListener value="#{fone}"
+						target="#{telefoneManagedBean.telefone}" />
+						<f:ajax execute="botaoremover" render="@form :formulario:msg"/>
+				</h:commandLink>
+			</p:column>
+			
+
+		</p:dataTable>
+	</h:form>
+
+
+</h:body>
+
+</HTML>
